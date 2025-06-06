@@ -285,7 +285,7 @@ export default function Pomodoro() {
       className={`flex flex-col p-8 bg-slate-900 h-screen w-screen items-center justify-center`}
     >
       <div
-        className={`space-y-8 w-full max-w-lg ${PHASE_COLORS[phase]} duration-500 transition-colors rounded-xl p-8 pr-12 shadow-lg`}
+        className={`space-y-8 w-full max-w-lg ${PHASE_COLORS[phase]} duration-500 transition-colors rounded-xl p-8 pr-12 shadow-lg border border-neutral-500/50`}
       >
         <div className="font-mono text-white">
           <div className="text-2xl mt-2 tracking-widest">
