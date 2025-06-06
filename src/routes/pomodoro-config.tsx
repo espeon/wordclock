@@ -26,15 +26,18 @@ export default function PomodoroConfigurator() {
   const [sessions, setSessions] = useQueryState("sessions", {
     defaultValue: String(DEFAULTS.sessions),
   });
-  const [dir, setDir] = useQueryState("dir", {
-    defaultValue: "left",
-  });
 
   // Hotkey controls
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.repeat) return;
-      if (e.target && ["INPUT", "SELECT", "TEXTAREA"].includes((e.target as HTMLElement).tagName)) return;
+      if (
+        e.target &&
+        ["INPUT", "SELECT", "TEXTAREA"].includes(
+          (e.target as HTMLElement).tagName,
+        )
+      )
+        return;
       let w = parseInt(work || "25", 10);
       let s = parseInt(short || "5", 10);
       let l = parseInt(long || "15", 10);
@@ -75,7 +78,18 @@ export default function PomodoroConfigurator() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
     // eslint-disable-next-line
-  }, [work, short, long, sessions, dir, setWork, setShort, setLong, setSessions, setDir]);
+  }, [
+    work,
+    short,
+    long,
+    sessions,
+    dir,
+    setWork,
+    setShort,
+    setLong,
+    setSessions,
+    setDir,
+  ]);
 
   return (
     <div className="flex flex-col items-start justify-start p-8 bg-slate-900 h-screen w-screen">
@@ -93,7 +107,7 @@ export default function PomodoroConfigurator() {
           className="space-y-4"
           onSubmit={(e) => {
             e.preventDefault();
-            window.location.href = `/pomodoro?work=${work}&short=${short}&long=${long}&sessions=${sessions}&dir=${dir}`;
+            window.location.href = `/pomodoro?work=${work}&short=${short}&long=${long}&sessions=${sessions}`;
           }}
         >
           <div>
@@ -140,17 +154,6 @@ export default function PomodoroConfigurator() {
               className="px-2 py-1 rounded bg-slate-800 text-white w-24"
             />
           </div>
-          <div>
-            <label className="block mb-1">Direction</label>
-            <select
-              value={dir}
-              onChange={(e) => setDir(e.target.value)}
-              className="px-2 py-1 rounded bg-slate-800 text-white w-32"
-            >
-              <option value="left">Left</option>
-              <option value="right">Right</option>
-            </select>
-          </div>
           <button
             type="submit"
             className="px-4 py-2 bg-blue-600 text-white rounded"
@@ -161,12 +164,21 @@ export default function PomodoroConfigurator() {
         <div className="mt-6 text-xs text-slate-400 font-mono">
           <div>Hotkeys:</div>
           <ul className="list-disc ml-5">
-            <li><b>W</b>: +1 work min, <b>Shift+W</b>: -1 work min</li>
-            <li><b>S</b>: +1 short break min, <b>Shift+S</b>: -1 short break min</li>
-            <li><b>L</b>: +1 long break min, <b>Shift+L</b>: -1 long break min</li>
-            <li><b>N</b>: +1 session, <b>Shift+N</b>: -1 session</li>
-            <li><b>D</b>: Toggle Direction</li>
-            <li><b>G</b> or <b>Enter</b>: Go to Pomodoro</li>
+            <li>
+              <b>W</b>: +1 work min, <b>Shift+W</b>: -1 work min
+            </li>
+            <li>
+              <b>S</b>: +1 short break min, <b>Shift+S</b>: -1 short break min
+            </li>
+            <li>
+              <b>L</b>: +1 long break min, <b>Shift+L</b>: -1 long break min
+            </li>
+            <li>
+              <b>N</b>: +1 session, <b>Shift+N</b>: -1 session
+            </li>
+            <li>
+              <b>G</b> or <b>Enter</b>: Go to Pomodoro
+            </li>
           </ul>
         </div>
       </div>
