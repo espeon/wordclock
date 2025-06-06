@@ -60,7 +60,11 @@ function playSound(type: Phase) {
     o.frequency.linearRampToValueAtTime(baseFreq, ctx.currentTime + 1.9);
 
     // Gain envelope for "dinggggg" decay
-    g.gain.setValueAtTime(type === "work" ? 0.4 : 1.0, ctx.currentTime);
+    g.gain.setValueAtTime(0.1, ctx.currentTime);
+    g.gain.linearRampToValueAtTime(
+      type === "work" ? 0.3 : 0.4,
+      ctx.currentTime + 0.04,
+    );
     g.gain.exponentialRampToValueAtTime(
       0.0001,
       ctx.currentTime + (1500 - baseFreq) / 1000,
