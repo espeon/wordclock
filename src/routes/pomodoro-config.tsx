@@ -63,13 +63,10 @@ export default function PomodoroConfigurator() {
           else sess = Math.min(12, sess + 1);
           setSessions(String(sess));
           break;
-        case "d":
-          setDir(dir === "left" ? "right" : "left");
-          break;
         case "g":
         case "enter":
           e.preventDefault();
-          window.location.href = `/pomodoro?work=${w}&short=${s}&long=${l}&sessions=${sess}&dir=${dir}`;
+          window.location.href = `/pomodoro?work=${w}&short=${s}&long=${l}&sessions=${sess}`;
           break;
         default:
           break;
@@ -78,18 +75,7 @@ export default function PomodoroConfigurator() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
     // eslint-disable-next-line
-  }, [
-    work,
-    short,
-    long,
-    sessions,
-    dir,
-    setWork,
-    setShort,
-    setLong,
-    setSessions,
-    setDir,
-  ]);
+  }, [work, short, long, sessions, setWork, setShort, setLong, setSessions]);
 
   return (
     <div className="flex flex-col items-start justify-start p-8 bg-slate-900 h-screen w-screen">
