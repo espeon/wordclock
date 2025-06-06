@@ -8,9 +8,7 @@ import {
   Pause,
   Play,
   RotateCcw,
-  Speaker,
   Volume2,
-  VolumeX,
 } from "lucide-react";
 
 // Classic Pomodoro defaults (in minutes)
