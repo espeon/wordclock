@@ -3,6 +3,8 @@
 @theme {
     /* font mono*/
     --font-mono: "DM Mono", monospace;
+
+    --breakpoint-sm: 36rem;
 }
 
 body {

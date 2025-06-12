@@ -311,14 +311,14 @@ export default function Pomodoro() {
           </div>
           <div className="text-5xl font-medium tracking-wider mb-2">
             {numberToWords(minutes)}{" "}
-            <span className="text-5xl">
+            <span>
               {(minutes <= 20 || minutes % 10 == 0) && <br />}minute
               {minutes != 1 && "s"}
             </span>
           </div>
-          <div className="text-5xl font-light text-white/80 tracking-wider">
+          <div className="text-3xl sm:text-5xl font-light text-white/80 tracking-wider">
             and {numberToWords(seconds)}{" "}
-            <span className="text-5xl">
+            <span>
               {(seconds <= 20 || seconds % 10 == 0) && <br />}second
               {seconds != 1 && "s"}
             </span>
