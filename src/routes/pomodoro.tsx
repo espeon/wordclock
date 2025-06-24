@@ -9,6 +9,7 @@ import {
   Play,
   RotateCcw,
   Volume2,
+  Coffee,
 } from "lucide-react";
 
 // Classic Pomodoro defaults (in minutes)
@@ -128,7 +129,12 @@ export default function Pomodoro() {
   const [remainingMs, setRemainingMs] = useState(workMins * 60 * 1000);
   const [running, setRunning] = useState(true); // Start on load
 
+  const wakeLock = useRef(null as null | WakeLockSentinel)
+
   // Sound/notification toggles
+  const [keepAwake, setKeepAwake] = useState(() =>
+    getStoredBool("pomodoro:keep_awake", false),
+  );
   const [soundOn, setSoundOn] = useState(() =>
     getStoredBool("pomodoro:sound", true),
   );
@@ -161,6 +167,32 @@ export default function Pomodoro() {
     checkNotify(phase);
     // eslint-disable-next-line
   }, [phase]);
+
+  // Screen lock handling
+  async function refreshWakeLock() {
+    if (!wakeLock.current || wakeLock.current.released) {
+      const lock = await navigator.wakeLock.request()
+      if (!wakeLock.current || wakeLock.current.released) { // don't make a duplicate lock
+        wakeLock.current = lock
+      } else {
+        lock.release()
+      }
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('visibilitychange', refreshWakeLock)
+    return () => document.removeEventListener('visibilitychange', refreshWakeLock)
+  }, [])
+
+  useEffect(() => {
+    if (keepAwake) {
+      refreshWakeLock()
+    } else {
+      wakeLock.current?.release()
+      wakeLock.current = null
+    }
+  }, [keepAwake])
 
   // Timer logic
   useEffect(() => {
@@ -369,6 +401,18 @@ export default function Pomodoro() {
           </button>
         </div>
         <div className="-mt-6 pb-2 text-xs text-slate-200 font-mono flex w-full justify-end flex-row gap-2">
+          <label className="flex items-center text-xs hover:bg-neutral-500/50 has-[:checked]:hover:bg-neutral-800/50 has-[:checked]:bg-neutral-800/30 duration-150 transition-colors border border-neutral-500/50 p-2 rounded cursor-pointer select-none">
+            <input
+              type="checkbox"
+              className="w-0"
+              checked={keepAwake}
+              onChange={(e) => {
+                setKeepAwake(e.target.checked);
+                setStoredBool("pomodoro:keep_awake", e.target.checked);
+              }}
+            />
+            <Coffee />
+          </label>
           <label className="flex items-center text-xs hover:bg-neutral-500/50 has-[:checked]:hover:bg-neutral-800/50 has-[:checked]:bg-neutral-800/30 duration-150 transition-colors border border-neutral-500/50 p-2 rounded cursor-pointer select-none">
             <input
               type="checkbox"
